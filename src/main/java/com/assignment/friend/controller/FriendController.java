@@ -4,6 +4,7 @@ import com.assignment.common.model.CursorPageResponseDto;
 import com.assignment.common.model.PageResponseDto;
 import com.assignment.common.model.ResponseBody;
 import com.assignment.common.model.ResponseCode;
+import com.assignment.common.validator.XUserId;
 import com.assignment.friend.dto.*;
 import com.assignment.friend.service.FriendRequestHistoryService;
 import com.assignment.friend.service.FriendRequestService;
@@ -29,8 +30,7 @@ public class FriendController {
 
     @GetMapping()
     public ResponseEntity<PageResponseDto<FriendListResponseDto>> getSpecificUserFriendList(
-        // todo: userId header 검증
-        @RequestHeader(value = "X-USER-ID", required = false) Long userId,
+        @XUserId(optional = true)  @RequestHeader(value = "X-USER-ID", required = false) Long userId,
         @ParameterObject @Valid FriendListRequestDto requestDto
     ) {
         PageResponseDto<FriendListResponseDto> data = friendService.selectFriendList(userId, requestDto);
@@ -39,8 +39,7 @@ public class FriendController {
 
     @GetMapping("/requests")
     public ResponseEntity<CursorPageResponseDto<FriendRequestListResponseDto>> getFriendRequestList(
-        // todo: userId header 검증
-        @RequestHeader("X-USER-ID") Long userId,
+        @XUserId @RequestHeader("X-USER-ID") Long userId,
         @ParameterObject @Valid FriendRequestListRequestDto requestDto
     ) {
         CursorPageResponseDto<FriendRequestListResponseDto> data = friendRequestService.selectFriendRequestList(userId, requestDto);
@@ -57,8 +56,7 @@ public class FriendController {
 
     @PostMapping("/request")
     public ResponseEntity<ResponseBody> submitFriendRequest(
-        // todo: userId header 검증
-        @RequestHeader("X-USER-ID") Long userId,
+        @XUserId @RequestHeader("X-USER-ID") Long userId,
         @RequestBody FriendRequestCreateRequestDto requestDto
     ) {
         friendRequestService.processSubmitFriendRequest(userId, requestDto);
@@ -67,8 +65,7 @@ public class FriendController {
 
     @PatchMapping("/accept/{requestId}")
     public ResponseEntity<ResponseBody> acceptFriendRequest(
-        // todo: userId header 검증
-        @RequestHeader("X-USER-ID") Long userId,
+        @XUserId @RequestHeader("X-USER-ID") Long userId,
         @UUID @PathVariable("requestId") String requestId,
         @RequestBody FriendRequestAcceptRequestDto requestDto
     ) {
@@ -78,8 +75,7 @@ public class FriendController {
 
     @PatchMapping("/reject/{requestId}")
     public ResponseEntity<ResponseBody> rejectFriendRequest(
-        // todo: userId header 검증
-        @RequestHeader("X-USER-ID") Long userId,
+        @XUserId @RequestHeader("X-USER-ID") Long userId,
         @UUID @PathVariable("requestId") String requestId
     ) {
         friendRequestService.processRejectFriendRequest(userId, requestId);
