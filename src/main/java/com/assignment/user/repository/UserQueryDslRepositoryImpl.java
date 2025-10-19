@@ -26,13 +26,13 @@ public class UserQueryDslRepositoryImpl implements UserQueryDslRepository {
 
     @Override
     public Page<User> searchUsers(String userName, Integer userAge, Pageable pageable) {
-        BooleanBuilder builder = new BooleanBuilder();
+        BooleanBuilder condition = new BooleanBuilder();
 
         if (StringUtils.isNotBlank(userName)) {
-            builder.and(qUser.userName.contains(userName));
+            condition.and(qUser.userName.contains(userName));
         }
         if (userAge != null) {
-            builder.and(qUser.userAge.eq(userAge));
+            condition.and(qUser.userAge.eq(userAge));
         }
 
         List<OrderSpecifier<?>> orders = new ArrayList<>();
@@ -51,7 +51,7 @@ public class UserQueryDslRepositoryImpl implements UserQueryDslRepository {
 
         List<User> results = queryFactory
             .selectFrom(qUser)
-            .where(builder)
+            .where(condition)
             .orderBy(orders.toArray(new OrderSpecifier[0]))
             .offset(pageable.getOffset())
             .limit(pageable.getPageSize())
@@ -60,7 +60,7 @@ public class UserQueryDslRepositoryImpl implements UserQueryDslRepository {
         Long total = queryFactory
             .select(qUser.count())
             .from(qUser)
-            .where(builder)
+            .where(condition)
             .fetchOne();
 
         return PageableExecutionUtils.getPage(

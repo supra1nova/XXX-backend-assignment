@@ -26,23 +26,23 @@ public class FriendRequestQueryDslRepositoryImpl implements FriendRequestQueryDs
 
     @Override
     public List<FriendRequestListResponseDto> searchFriendRequests(Long userId, Long fromUserId, Cursorable cursorable) {
-        BooleanBuilder builder = new BooleanBuilder();
+        BooleanBuilder condition = new BooleanBuilder();
 
-        builder.and(qFriendRequest.toUser.userId.eq(userId));
+        condition.and(qFriendRequest.toUser.userId.eq(userId));
 
         if (fromUserId != null) {
-            builder.and(qFriendRequest.fromUser.userId.eq(fromUserId));
+            condition.and(qFriendRequest.fromUser.userId.eq(fromUserId));
         }
 
         Duration window = cursorable.getWindowDuration();
         if (window != null) {
             Instant threshold = Instant.now().minus(window);
-            builder.and(qFriendRequest.requestedAt.goe(threshold));
+            condition.and(qFriendRequest.requestedAt.goe(threshold));
         }
 
         String requestId = cursorable.getRequestId();
         if (StringUtils.isNotBlank(requestId)) {
-            builder.and(qFriendRequest.requestId.eq(requestId));
+            condition.and(qFriendRequest.requestId.eq(requestId));
         }
 
         List<OrderSpecifier<?>> orders = List.of(new OrderSpecifier<>(
@@ -58,7 +58,7 @@ public class FriendRequestQueryDslRepositoryImpl implements FriendRequestQueryDs
                 qFriendRequest.requestedAt
             ))
             .from(qFriendRequest)
-            .where(builder)
+            .where(condition)
             .orderBy(orders.toArray(new OrderSpecifier[0]))
             .limit(cursorable.getMaxSize())
             .fetch();

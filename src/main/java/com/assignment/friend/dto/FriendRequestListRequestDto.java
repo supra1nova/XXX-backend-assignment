@@ -23,6 +23,6 @@ public class FriendRequestListRequestDto extends CursorPageRequestDto {
     @Override
     public void init() {
         super.init();
-        this.sort = (sort == null || StringUtils.isBlank(sort)) ? "requestedAt,desc" : sort;
+        this.sort = StringUtils.isBlank(sort) ? "requestedAt,desc" : sort;
     }
 }
