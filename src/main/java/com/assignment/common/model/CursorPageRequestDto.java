@@ -3,6 +3,7 @@ package com.assignment.common.model;
 import com.assignment.common.validator.In;
 import com.querydsl.core.types.Order;
 import io.micrometer.common.util.StringUtils;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,13 +15,17 @@ import org.hibernate.validator.constraints.UUID;
 @Setter
 @SuperBuilder
 @NoArgsConstructor
+@Schema(description = "기본 커서 페이지네이션 DTO")
 public class CursorPageRequestDto {
+    @Schema(description = "대상 커서 ID (uuid 형식)", example = "8bc3930e-e314-4129-b401-8b31475f0606")
     @UUID
     private String requestId;
 
+    @Schema(description = "최대 로드 수량 (min:10, max:50)", example = "20")
     @Range(min = 10, max = 50, message = "10 ~ 50 사이의 크기만 로드 가능합니다.")
     private Integer maxSize;
 
+    @Schema(description = "조회 기간 (1d, 7d, 30d, 90d, over)", example = "over")
     @In(anyOf = {"1d", "7d", "30d", "90d", "over"}, message = "요청기간이 올바르지 않습니다.")
     private String window;
 

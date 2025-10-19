@@ -1,5 +1,6 @@
 package com.assignment.common.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,9 +18,11 @@ import org.springframework.data.domain.Sort;
 @SuperBuilder
 @NoArgsConstructor
 public class PageRequestDto {
+    @Schema(description = "조회 대상 페이지", example = "1")
     @Min(value = 1, message = "페이지는 1 이상이어야 합니다.")
     private Integer page;
 
+    @Schema(description = "최대 로드 수량 (min:10, max:50)", example = "10")
     @Range(min = 10, max = 50, message = "10 ~ 50 사이의 크기만 로드 가능합니다.")
     private Integer maxSize;
 

@@ -21,7 +21,6 @@ public class FriendListResponseDto {
     @JsonProperty("to_user_id")
     private final Long toUserId;
 
-    @JsonProperty("approved_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "UTC")
     private final Instant approvedAt;
 }
