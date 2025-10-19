@@ -25,6 +25,13 @@ public class ExceptionAdvice {
         return resp(e.getResponseCode(), e);
     }
 
+    @ExceptionHandler(RateLimitExceededException.class)
+    protected Object handleRateLimitExceededException(HttpServletRequest req, RateLimitExceededException e) {
+        CommonUtils.printRequestObject(req);
+        ExceptionUtils.printException("RateLimitExceededException", req, e);
+        return resp(ResponseCode.RATE_LIMIT_EXCEEDED, e);
+    }
+
     @ExceptionHandler(MissingRequestHeaderException.class)
     public Object handleMissingRequestHeaderException(HttpServletRequest req, MissingRequestHeaderException e) {
         ExceptionUtils.printException("MissingRequestHeaderException", req, e);

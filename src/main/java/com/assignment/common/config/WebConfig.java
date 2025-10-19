@@ -1,6 +1,7 @@
 package com.assignment.common.config;
 
 import com.assignment.common.interceptor.LogInterceptor;
+import com.assignment.common.interceptor.RateLimitInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
@@ -14,6 +15,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
     private final LogInterceptor logInterceptor;
+    private final RateLimitInterceptor rateLimitInterceptor;
 
     @Override
     public void configurePathMatch(PathMatchConfigurer configurer) {
@@ -25,5 +27,8 @@ public class WebConfig implements WebMvcConfigurer {
         registry
             .addInterceptor(logInterceptor)
             .addPathPatterns("/**");
+        registry
+            .addInterceptor(rateLimitInterceptor)
+            .addPathPatterns("/api/friends/request");
     }
 }
