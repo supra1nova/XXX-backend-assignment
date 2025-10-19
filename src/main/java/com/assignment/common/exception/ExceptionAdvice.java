@@ -22,7 +22,7 @@ public class ExceptionAdvice {
     protected Object handleCustomException(HttpServletRequest req, CustomException e) {
         CommonUtils.printRequestObject(req);
         ExceptionUtils.printException("CustomException", req, e);
-        return resp(e.getResponseCode(), e.getException());
+        return resp(e.getResponseCode(), e);
     }
 
     @ExceptionHandler(MissingRequestHeaderException.class)
