@@ -28,7 +28,7 @@ public class ExceptionAdvice {
     @ExceptionHandler(MissingRequestHeaderException.class)
     public Object handleMissingRequestHeaderException(HttpServletRequest req, MissingRequestHeaderException e) {
         ExceptionUtils.printException("MissingRequestHeaderException", req, e);
-        return resp(ResponseCode.INVALID_X_USER_ID, e);
+        return resp(ResponseCode.INVALID_HEADER_VALUE, e);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
