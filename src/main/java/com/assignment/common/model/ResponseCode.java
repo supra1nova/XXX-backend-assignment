@@ -21,12 +21,13 @@ public enum ResponseCode {
 
     /* 400 */
     INVALID_REQUEST(HttpStatus.BAD_REQUEST, "E00001", "잘못된 요청입니다."),
-    INVALID_VALUES(HttpStatus.BAD_REQUEST, "E00002", "입력값이 올바르지 않습니다."),
-    INVALID_X_USER_ID(HttpStatus.BAD_REQUEST, "E00003", "헤더값이 올바르지 않습니다."),
-    CANNOT_SELF_FRIEND_REQUEST(HttpStatus.BAD_REQUEST, "E00004", "친구 신청은 스스로에게 할 수 없습니다."),
-    ALREADY_FRIENDS(HttpStatus.BAD_REQUEST, "E00005", "이미 친구인 상대에게는 친구 신청을 할 수 없습니다."),
-    FRIEND_REQUEST_ALREADY_SENT(HttpStatus.BAD_REQUEST, "E00006", "친구 신청이 이미 요청되었습니다."),
-    FRIEND_REQUEST_ALREADY_RECEIVED(HttpStatus.BAD_REQUEST, "E00007", "상대로부터 받은 친구 신청이 이미 존재합니다."),
+    INVALID_VALUES(HttpStatus.BAD_REQUEST, "E00002", "잘못된 입력값 입니다."),
+    INVALID_HEADER_VALUE(HttpStatus.BAD_REQUEST, "E00003", "잘못된 헤더값 입니다."),
+    INVALID_X_USER_ID(HttpStatus.BAD_REQUEST, "E00004", "잘못된 X-USER-ID 값 입니다."),
+    CANNOT_SELF_FRIEND_REQUEST(HttpStatus.BAD_REQUEST, "E00005", "친구 신청은 스스로에게 할 수 없습니다."),
+    ALREADY_FRIENDS(HttpStatus.BAD_REQUEST, "E00006", "이미 친구인 상대에게는 친구 신청을 할 수 없습니다."),
+    FRIEND_REQUEST_ALREADY_SENT(HttpStatus.BAD_REQUEST, "E00007", "친구 신청이 이미 요청되었습니다."),
+    FRIEND_REQUEST_ALREADY_RECEIVED(HttpStatus.BAD_REQUEST, "E00008", "상대로부터 받은 친구 신청이 이미 존재합니다."),
 
     /* 404 */
     RESOURCE_NOT_FOUND(HttpStatus.NOT_FOUND, "E0D001", "리소스가 존재하지 않습니다."),
