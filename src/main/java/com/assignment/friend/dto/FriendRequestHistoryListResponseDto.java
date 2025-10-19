@@ -13,16 +13,12 @@ import java.time.Instant;
 @Builder
 @AllArgsConstructor
 public class FriendRequestHistoryListResponseDto {
-    @JsonProperty("history_id")
     private final String historyId;
 
-    @JsonProperty("request_id")
     private final String requestId;
 
-    @JsonProperty("from_user_id")
     private final Long fromUserId;
 
-    @JsonProperty("to_user_id")
     private final Long toUserId;
 
     private FriendRequestStatus status;
