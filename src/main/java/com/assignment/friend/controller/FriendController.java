@@ -5,6 +5,7 @@ import com.assignment.common.model.PageResponseDto;
 import com.assignment.common.model.ResponseBody;
 import com.assignment.common.model.ResponseCode;
 import com.assignment.common.validator.XUserId;
+import com.assignment.common.webclient.TestApiService;
 import com.assignment.friend.dto.*;
 import com.assignment.friend.service.FriendRequestHistoryService;
 import com.assignment.friend.service.FriendRequestService;
@@ -27,6 +28,7 @@ public class FriendController {
     private final FriendService friendService;
     private final FriendRequestService friendRequestService;
     private final FriendRequestHistoryService friendRequestHistoryService;
+    private final TestApiService testApiService;
 
     @GetMapping()
     public ResponseEntity<PageResponseDto<FriendListResponseDto>> getSpecificUserFriendList(
@@ -79,6 +81,15 @@ public class FriendController {
         @UUID @PathVariable("requestId") String requestId
     ) {
         friendRequestService.processRejectFriendRequest(userId, requestId);
+        return ResponseBody.toResponseEntity(ResponseCode.OK);
+    }
+
+
+    @PostMapping("/test")
+    public ResponseEntity<ResponseBody> rateLimitTest() {
+        for (int i = 0; i < 20; i++) {
+            testApiService.postCreateFriendRequestTest();
+        }
         return ResponseBody.toResponseEntity(ResponseCode.OK);
     }
 }

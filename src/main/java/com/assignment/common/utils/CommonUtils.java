@@ -3,16 +3,26 @@ package com.assignment.common.utils;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
 public class CommonUtils {
-    /**
-     * request parameter 출력
-     *
-     * @param request HttpServletRequest
-     */
+    public static HttpServletRequest getRequest() {
+        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        return attr.getRequest();
+    }
+
+    public static String getIpAddr() {
+        HttpServletRequest req = getRequest();
+        return Optional.ofNullable(req.getHeader("X-Forwarded-For"))
+            .map(x -> x.split(",")[0].trim())
+            .orElse(req.getRemoteAddr());
+    }
+
     public static void printRequestObject(HttpServletRequest request) {
         if (!log.isInfoEnabled()) {
             return;

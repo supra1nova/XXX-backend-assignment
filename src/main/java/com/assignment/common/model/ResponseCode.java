@@ -45,10 +45,14 @@ public enum ResponseCode {
     DUPLICATED_REQUEST(HttpStatus.CONFLICT, "E0I001", "지원하지 않는 Accept 헤더입니다."),
 
     /* 415 */
-    INVALID_CONTENT_TYPE(HttpStatus.UNSUPPORTED_MEDIA_TYPE, "E0O001", "지원하지 않는 Content-Type 입니다."),
+    INVALID_CONTENT_TYPE(HttpStatus.UNSUPPORTED_MEDIA_TYPE, "EAE001", "지원하지 않는 Content-Type 입니다."),
 
     /* 422 */
-    INVALID_REQUEST_STATE(HttpStatus.UNPROCESSABLE_ENTITY, "E0V001", "이미 처리된 요청입니다."),
+    INVALID_REQUEST_STATE(HttpStatus.UNPROCESSABLE_ENTITY, "EBB001", "이미 처리된 요청입니다."),
+
+    /* 429 */
+    RATE_LIMIT_EXCEEDED(HttpStatus.UNPROCESSABLE_ENTITY, "EBI001", "요청이 너무 많습니다. 잠시 후 다시 시도해주세요."),
+    ANOTHER_REQUEST_PROCESSING(HttpStatus.UNPROCESSABLE_ENTITY, "EBI002", "이미 처리중인 요청이 존재합니다. 잠시 후 다시 시도해주세요."),
 
     /* 500 */
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "U00001", "예기치 못한 서버 오류가 발생했습니다"),
