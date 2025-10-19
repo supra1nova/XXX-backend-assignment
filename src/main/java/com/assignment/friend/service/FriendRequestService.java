@@ -52,10 +52,6 @@ public class FriendRequestService {
     }
 
     public void processSubmitFriendRequest(Long fromUserId, FriendRequestCreateRequestDto requestDto) {
-        // todo: interceptor 내 x-user-id 확인 로직 구현시 삭제
-        User fromUser = userRepository.findById(fromUserId)
-            .orElseThrow(() -> new CustomException(ResponseCode.X_USER_ID_NOT_FOUND));
-
         Long toUserId = requestDto.getToUserId();
         if (Objects.equals(fromUserId, toUserId)) {
             throw new CustomException(ResponseCode.CANNOT_SELF_FRIEND_REQUEST);
@@ -80,18 +76,13 @@ public class FriendRequestService {
             }
         }
 
-        // todo: interceptor 내 x-user-id 확인 로직 구현시 fromUser 를 userRepository.getReferenceById(fromUserId);로 교체
-        FriendRequest friendRequest = FriendRequest.create(fromUser, toUser);
+        FriendRequest friendRequest = FriendRequest.create(userRepository.getReferenceById(fromUserId), toUser);
         friendRequestRepository.save(friendRequest);
 
         insertFriendRequestHistory(friendRequest, FriendRequestStatus.PENDING);
     }
 
     public void processAcceptFriendRequest(Long toUserId, String requestId, FriendRequestAcceptRequestDto requestDto) {
-        // todo: interceptor 내 x-user-id 확인 로직 구현시 삭제
-        userRepository.findById(toUserId)
-            .orElseThrow(() -> new CustomException(ResponseCode.X_USER_ID_NOT_FOUND));
-
         if (StringUtils.isBlank(requestId) || requestDto.getFromUserId() == null) {
             throw new CustomException(ResponseCode.INVALID_VALUES);
         }
@@ -111,10 +102,6 @@ public class FriendRequestService {
     }
 
     public void processRejectFriendRequest(Long toUserId, String requestId) {
-        // todo: interceptor 내 x-user-id 확인 로직 구현시 삭제
-        userRepository.findById(toUserId)
-            .orElseThrow(() -> new CustomException(ResponseCode.X_USER_ID_NOT_FOUND));
-
         if (StringUtils.isBlank(requestId)) {
             throw new CustomException(ResponseCode.INVALID_VALUES);
         }
