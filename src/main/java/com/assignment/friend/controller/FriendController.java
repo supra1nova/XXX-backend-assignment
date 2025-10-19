@@ -5,6 +5,7 @@ import com.assignment.common.model.PageResponseDto;
 import com.assignment.common.model.ResponseBody;
 import com.assignment.common.model.ResponseCode;
 import com.assignment.friend.dto.*;
+import com.assignment.friend.service.FriendRequestHistoryService;
 import com.assignment.friend.service.FriendRequestService;
 import com.assignment.friend.service.FriendService;
 import jakarta.validation.Valid;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 public class FriendController {
     private final FriendService friendService;
     private final FriendRequestService friendRequestService;
+    private final FriendRequestHistoryService friendRequestHistoryService;
 
     @GetMapping()
     public ResponseEntity<PageResponseDto<FriendListResponseDto>> getSpecificUserFriendList(
@@ -42,6 +44,14 @@ public class FriendController {
         @ParameterObject @Valid FriendRequestListRequestDto requestDto
     ) {
         CursorPageResponseDto<FriendRequestListResponseDto> data = friendRequestService.selectFriendRequestList(userId, requestDto);
+        return ResponseBody.toResponseEntity(ResponseCode.OK, data);
+    }
+
+    @GetMapping("/history")
+    public ResponseEntity<PageResponseDto<FriendRequestHistoryListResponseDto>> getFriendRequestHistory(
+        @ParameterObject FriendRequestHistoryListRequestDto requestDto
+    ) {
+        PageResponseDto<FriendRequestHistoryListResponseDto> data = friendRequestHistoryService.findFriendRequestHistoryList(requestDto);
         return ResponseBody.toResponseEntity(ResponseCode.OK, data);
     }
 

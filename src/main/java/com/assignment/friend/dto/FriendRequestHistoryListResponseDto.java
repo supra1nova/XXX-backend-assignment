@@ -1,5 +1,6 @@
 package com.assignment.friend.dto;
 
+import com.assignment.friend.entity.FriendRequestStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -11,9 +12,12 @@ import java.time.Instant;
 @Getter
 @Builder
 @AllArgsConstructor
-public class FriendListResponseDto {
-    @JsonProperty("user_id")
-    private final Long userId;
+public class FriendRequestHistoryListResponseDto {
+    @JsonProperty("history_id")
+    private final String historyId;
+
+    @JsonProperty("request_id")
+    private final String requestId;
 
     @JsonProperty("from_user_id")
     private final Long fromUserId;
@@ -21,7 +25,8 @@ public class FriendListResponseDto {
     @JsonProperty("to_user_id")
     private final Long toUserId;
 
-    @JsonProperty("approved_at")
+    private FriendRequestStatus status;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "UTC")
-    private final Instant approvedAt;
+    private final Instant createdAt;
 }
