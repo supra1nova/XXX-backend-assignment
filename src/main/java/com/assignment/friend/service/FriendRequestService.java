@@ -47,7 +47,7 @@ public class FriendRequestService {
         return CursorPageResponseDto.of(friendRequestList, requestDto);
     }
 
-    public void insertFriendRequest(Long fromUserId, FriendRequestCreateRequestDto requestDto) {
+    public void processSubmitFriendRequest(Long fromUserId, FriendRequestCreateRequestDto requestDto) {
         // todo: interceptor 내 x-user-id 확인 로직 구현시 삭제
         User fromUser = userRepository.findById(fromUserId)
             .orElseThrow(() -> new CustomException(ResponseCode.X_USER_ID_NOT_FOUND));
@@ -57,9 +57,12 @@ public class FriendRequestService {
             throw new CustomException(ResponseCode.CANNOT_SELF_FRIEND_REQUEST);
         }
 
-        User toUser = selectUserByToUserId(toUserId);
+        User toUser = userRepository.findById(toUserId).orElseThrow(() -> new CustomException(ResponseCode.RECEIVER_NOT_FOUND));
 
-        friendRepository.existsFriendByFromAndToUserId(fromUserId, toUserId);
+        boolean existsFriend = friendRepository.existsFriendByFromAndToUserId(fromUserId, toUserId);
+        if (existsFriend) {
+            throw new CustomException(ResponseCode.ALREADY_FRIENDS);
+        }
 
         Optional<FriendRequest> existingRequestOpt =
             friendRequestRepository.searchFriendRequestByFromAndToUserId(fromUserId, toUserId);
@@ -74,11 +77,7 @@ public class FriendRequestService {
         }
 
         // todo: interceptor 내 x-user-id 확인 로직 구현시 fromUser 를 userRepository.getReferenceById(fromUserId);로 교체
-        FriendRequest friendRequest = FriendRequest.create(
-            fromUser,
-            toUser
-        );
-
+        FriendRequest friendRequest = FriendRequest.create(fromUser, toUser);
         friendRequestRepository.save(friendRequest);
     }
 

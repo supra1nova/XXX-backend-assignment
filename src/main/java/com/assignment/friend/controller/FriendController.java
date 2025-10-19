@@ -51,7 +51,7 @@ public class FriendController {
         @RequestHeader("X-USER-ID") Long userId,
         @RequestBody FriendRequestCreateRequestDto requestDto
     ) {
-        friendRequestService.insertFriendRequest(userId, requestDto);
+        friendRequestService.processSubmitFriendRequest(userId, requestDto);
         return ResponseBody.toResponseEntity(ResponseCode.CREATED);
     }
 

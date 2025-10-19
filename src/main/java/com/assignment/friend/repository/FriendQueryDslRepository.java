@@ -7,5 +7,5 @@ import org.springframework.data.domain.Pageable;
 public interface FriendQueryDslRepository {
     Page<FriendListResponseDto> searchFriends(Long userId, Long fromUserId, Long toUserId, Pageable pageable);
 
-    void existsFriendByFromAndToUserId(Long fromUserId, Long toUserId);
+    boolean existsFriendByFromAndToUserId(Long fromUserId, Long toUserId);
 }
