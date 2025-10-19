@@ -1,0 +1,35 @@
+package com.assignment.friend.controller;
+
+import com.assignment.common.model.PageResponseDto;
+import com.assignment.common.model.ResponseBody;
+import com.assignment.common.model.ResponseCode;
+import com.assignment.friend.dto.FriendListRequestDto;
+import com.assignment.friend.dto.FriendListResponseDto;
+import com.assignment.friend.service.FriendService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@Slf4j
+@RestController
+@RequestMapping("/friends")
+@RequiredArgsConstructor
+public class FriendController {
+    private final FriendService friendService;
+
+    @GetMapping()
+    public ResponseEntity<PageResponseDto<FriendListResponseDto>> getSpecificUserFriendList(
+        // todo: userId header 검증
+        @RequestHeader(value = "X-USER-ID", required = false) Long userId,
+        @ParameterObject @Valid FriendListRequestDto requestDto
+    ) {
+        PageResponseDto<FriendListResponseDto> data = friendService.selectFriendList(userId, requestDto);
+        return ResponseBody.toResponseEntity(ResponseCode.OK, data);
+    }
+}
