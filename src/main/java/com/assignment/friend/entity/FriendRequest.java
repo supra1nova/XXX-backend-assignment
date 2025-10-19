@@ -1,8 +1,8 @@
 package com.assignment.friend.entity;
 
 import com.assignment.common.utils.RandomIdGenerator;
-import com.assignment.friend.dto.FriendRequestListResponseDto;
 import com.assignment.user.entity.User;
+import io.micrometer.common.util.StringUtils;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -14,10 +14,17 @@ import java.time.Instant;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder(access = AccessLevel.PRIVATE)
-@Table(name = "friend_requests")
+@Table(
+    name = "friend_requests",
+    indexes = {
+        @Index(name = "idx_friend_request_from", columnList = "from_user_id"),
+        @Index(name = "idx_friend_request_to", columnList = "to_user_id"),
+        @Index(name = "idx_friend_request_from_to", columnList = "from_user_id, to_user_id"),
+        @Index(name = "idx_friend_request_to_from", columnList = "to_user_id, from_user_id")
+    }
+)
 public class FriendRequest {
     @Id
-    @GeneratedValue
     @Column(name = "request_id")
     private String requestId;
 
@@ -35,16 +42,16 @@ public class FriendRequest {
 
     @PrePersist
     public void prePersist() {
-        if (requestId == null) {
+        if (StringUtils.isBlank(requestId)) {
             requestId = RandomIdGenerator.epochUuid();
         }
     }
 
-    public FriendRequestListResponseDto toFriendListResponseDto() {
-        return FriendRequestListResponseDto.builder()
-            .requestId(requestId)
-            .fromUserId(fromUser.getUserId())
-            .requestedAt(requestedAt)
+    public static FriendRequest create(User fromUser, User toUser) {
+        return FriendRequest.builder()
+            .fromUser(fromUser)
+            .toUser(toUser)
+            .requestedAt(Instant.now())
             .build();
     }
 }

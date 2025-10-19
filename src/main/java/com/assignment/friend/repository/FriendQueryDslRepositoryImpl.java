@@ -1,11 +1,14 @@
 package com.assignment.friend.repository;
 
+import com.assignment.common.exception.CustomException;
+import com.assignment.common.model.ResponseCode;
 import com.assignment.friend.dto.FriendListResponseDto;
 import com.assignment.friend.entity.QFriend;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,20 +31,20 @@ public class FriendQueryDslRepositoryImpl implements FriendQueryDslRepository {
 
     @Override
     public Page<FriendListResponseDto> searchFriends(Long userId, Long fromUserId, Long toUserId, Pageable pageable) {
-        BooleanBuilder builder = new BooleanBuilder();
+        BooleanBuilder condition = new BooleanBuilder();
 
         if (userId != null) {
-            builder.and(qFriend.user.userId.eq(userId));
-            builder.and(
+            condition.and(qFriend.user.userId.eq(userId));
+            condition.and(
                 qFriend.toUser.userId.eq(userId)
                     .or(qFriend.fromUser.userId.eq(userId))
             );
         }
         if (fromUserId != null) {
-            builder.and(qFriend.fromUser.userId.eq(fromUserId));
+            condition.and(qFriend.fromUser.userId.eq(fromUserId));
         }
         if (toUserId != null) {
-            builder.and(qFriend.toUser.userId.eq(toUserId));
+            condition.and(qFriend.toUser.userId.eq(toUserId));
         }
 
         List<OrderSpecifier<?>> orders = new ArrayList<>();
@@ -67,7 +70,7 @@ public class FriendQueryDslRepositoryImpl implements FriendQueryDslRepository {
                 qFriend.approvedAt)
             )
             .from(qFriend)
-            .where(builder)
+            .where(condition)
             .orderBy(orders.toArray(new OrderSpecifier[0]))
             .offset(pageable.getOffset())
             .limit(pageable.getPageSize())
@@ -76,7 +79,7 @@ public class FriendQueryDslRepositoryImpl implements FriendQueryDslRepository {
         Long total = queryFactory
             .select(qFriend.count())
             .from(qFriend)
-            .where(builder)
+            .where(condition)
             .fetchOne();
 
         return PageableExecutionUtils.getPage(
@@ -84,5 +87,27 @@ public class FriendQueryDslRepositoryImpl implements FriendQueryDslRepository {
             pageable,
             () -> Objects.requireNonNullElse(total, 0L)
         );
+    }
+
+    @Override
+    public void existsFriendByFromAndToUserId(Long fromUserId, Long toUserId) {
+        BooleanBuilder condition = new BooleanBuilder();
+
+        BooleanExpression doesFromUserRequest = qFriend.fromUser.userId.eq(fromUserId)
+            .and(qFriend.toUser.userId.eq(toUserId));
+        BooleanExpression doesToUserRequest = qFriend.fromUser.userId.eq(toUserId)
+            .and(qFriend.toUser.userId.eq(fromUserId));
+
+        condition.andAnyOf(doesFromUserRequest, doesToUserRequest);
+
+        boolean existsFriend = queryFactory
+            .selectOne()
+            .from(qFriend)
+            .where(condition)
+            .fetchFirst() != null;
+
+        if (existsFriend) {
+            throw new CustomException(ResponseCode.ALREADY_FRIENDS);
+        }
     }
 }

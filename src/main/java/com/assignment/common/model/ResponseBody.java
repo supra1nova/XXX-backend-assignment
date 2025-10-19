@@ -22,6 +22,16 @@ public class ResponseBody {
     private String code;
     private String message;
 
+    public static ResponseEntity<ResponseBody> toResponseEntity(ResponseCode responseCode) {
+        log.info("[toResponse] {}, {}, {}", responseCode.getHttpStatus(), responseCode.getCode(), responseCode.getDetail());
+        return ResponseEntity
+            .status(responseCode.getHttpStatus())
+            .body(ResponseBody.builder()
+                .message(responseCode.getDetail())
+                .build()
+            );
+    }
+
     public static <T> ResponseEntity<T> toResponseEntity(ResponseCode responseCode, T data) {
         log.info("[toResponse] {}, {}, {}, {}", responseCode.getHttpStatus(), responseCode.getCode(), responseCode.getDetail(), data);
         return ResponseEntity
