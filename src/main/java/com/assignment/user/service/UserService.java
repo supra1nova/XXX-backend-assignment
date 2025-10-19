@@ -19,10 +19,12 @@ public class UserService {
 
     public PageResponseDto<UserListResponseDto> findUserList(UserListRequestDto requestDto) {
         requestDto.init();
-
         Pageable pageable = requestDto.toPageable(requestDto.getSort());
+
         Page<User> pageUserList = userRepository.searchUsers(
-            requestDto.getName(), requestDto.getAge(), pageable
+            requestDto.getName(),
+            requestDto.getAge(),
+            pageable
         );
 
         Page<UserListResponseDto> responseUserList = pageUserList.map(User::toUserListResponseDto);

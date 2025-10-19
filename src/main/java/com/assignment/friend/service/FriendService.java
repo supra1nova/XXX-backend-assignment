@@ -20,12 +20,14 @@ public class FriendService {
     ) {
         requestDto.init();
         Pageable pageable = requestDto.toPageable(requestDto.getSort());
+
         Page<FriendListResponseDto> responseFriendListPage = friendRepository.searchFriends(
             userId,
             requestDto.getFromUserId(),
             requestDto.getToUserId(),
             pageable
         );
+
         return PageResponseDto.from(responseFriendListPage);
     }
 }

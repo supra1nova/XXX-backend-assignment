@@ -26,7 +26,7 @@ public class FriendRequest {
     private User fromUser;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "reqcieve_user_id", nullable = false)
+    @JoinColumn(name = "recieve_user_id", nullable = false)
     private User toUser;
 
     @CreatedDate
