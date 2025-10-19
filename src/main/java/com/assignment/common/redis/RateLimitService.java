@@ -2,33 +2,41 @@ package com.assignment.common.redis;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
+import java.util.Collections;
 
 @Service
 @RequiredArgsConstructor
 public class RateLimitService {
     private final StringRedisTemplate redisTemplate;
 
-    /**
-     * @param key       요청 구분 키 (userId/ip/path 조합)
-     * @param limit     허용 요청 수
-     * @param ttlMillis 기간(ms)
-     * @return true: 허용 / false: 초과
-     */
-    public boolean checkLimit(String key, int limit, long ttlMillis) {
-        ValueOperations<String, String> ops = redisTemplate.opsForValue();
+    // 🔹 1. 속도 제한 (Rate Limit)
+    //@formatter:off
+    private static final String RATE_LIMIT_SCRIPT = """
+        local current = redis.call('incr', KEYS[1])
+        if tonumber(current) == 1 then
+            redis.call('pexpire', KEYS[1], ARGV[1])
+        end
+        return current
+    """;
 
-        // 원자적 증가
-        Long count = ops.increment(key);
+    public boolean checkRateLimit(String key, int limit, long ttlMillis) {
+        DefaultRedisScript<Long> script = new DefaultRedisScript<>(RATE_LIMIT_SCRIPT, Long.class);
+        Long count = redisTemplate.execute(script, Collections.singletonList(key), String.valueOf(ttlMillis));
+        return count != null && count <= limit;
+    }
 
-        if (count == 1) {
-            // 첫 요청이면 TTL 설정 (예: 1초)
-            redisTemplate.expire(key, Duration.ofMillis(ttlMillis));
-        }
+    // 🔹 2. 동시 요청 제한 (Lock)
+    public boolean tryLock(String key, long ttlMillis) {
+        Boolean success = redisTemplate.opsForValue()
+            .setIfAbsent(key, "LOCKED", Duration.ofMillis(ttlMillis));
+        return Boolean.TRUE.equals(success);
+    }
 
-        return count <= limit;
+    public void releaseLock(String key) {
+        redisTemplate.delete(key);
     }
 }
