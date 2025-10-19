@@ -10,7 +10,10 @@ import com.assignment.friend.dto.FriendRequestListRequestDto;
 import com.assignment.friend.dto.FriendRequestListResponseDto;
 import com.assignment.friend.entity.Friend;
 import com.assignment.friend.entity.FriendRequest;
+import com.assignment.friend.entity.FriendRequestHistory;
+import com.assignment.friend.entity.FriendRequestStatus;
 import com.assignment.friend.repository.FriendRepository;
+import com.assignment.friend.repository.FriendRequestHistoryRepository;
 import com.assignment.friend.repository.FriendRequestRepository;
 import com.assignment.user.entity.User;
 import com.assignment.user.repository.UserRepository;
@@ -29,6 +32,7 @@ import java.util.Optional;
 public class FriendRequestService {
     private final FriendRequestRepository friendRequestRepository;
     private final FriendRepository friendRepository;
+    private final FriendRequestHistoryRepository friendRequestHistoryRepository;
     private final UserRepository userRepository;
 
     public CursorPageResponseDto<FriendRequestListResponseDto> selectFriendRequestList(
@@ -79,6 +83,8 @@ public class FriendRequestService {
         // todo: interceptor 내 x-user-id 확인 로직 구현시 fromUser 를 userRepository.getReferenceById(fromUserId);로 교체
         FriendRequest friendRequest = FriendRequest.create(fromUser, toUser);
         friendRequestRepository.save(friendRequest);
+
+        insertFriendRequestHistory(friendRequest, FriendRequestStatus.PENDING);
     }
 
     public void processAcceptFriendRequest(Long toUserId, String requestId, FriendRequestAcceptRequestDto requestDto) {
@@ -99,6 +105,8 @@ public class FriendRequestService {
         friendRepository.save(Friend.create(friendRequest.getFromUser(), friendRequest.getFromUser(), friendRequest.getToUser()));
         friendRepository.save(Friend.create(friendRequest.getToUser(), friendRequest.getFromUser(), friendRequest.getToUser()));
 
+        insertFriendRequestHistory(friendRequest, FriendRequestStatus.ACCEPTED);
+
         friendRequestRepository.delete(friendRequest);
     }
 
@@ -116,8 +124,18 @@ public class FriendRequestService {
             toUserId
         ).orElseThrow(() -> new CustomException(ResponseCode.FRIEND_REQUEST_NOT_FOUND));
 
-        // todo: 친구 신청 내역(history) 테이블에 저장
+        insertFriendRequestHistory(friendRequest, FriendRequestStatus.REJECTED);
 
         friendRequestRepository.delete(friendRequest);
+    }
+
+    private void insertFriendRequestHistory(FriendRequest friendRequest, FriendRequestStatus status) {
+        FriendRequestHistory friendRequestHistory = FriendRequestHistory.create(
+            friendRequest,
+            friendRequest.getFromUser(),
+            friendRequest.getToUser(),
+            status
+        );
+        friendRequestHistoryRepository.save(friendRequestHistory);
     }
 }
