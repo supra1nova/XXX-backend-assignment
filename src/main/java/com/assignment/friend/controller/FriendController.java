@@ -55,7 +55,7 @@ public class FriendController {
         return ResponseBody.toResponseEntity(ResponseCode.CREATED);
     }
 
-    @PostMapping("/accept/{requestId}")
+    @PatchMapping("/accept/{requestId}")
     public ResponseEntity<ResponseBody> acceptFriendRequest(
         // todo: userId header 검증
         @RequestHeader("X-USER-ID") Long userId,
@@ -63,6 +63,16 @@ public class FriendController {
         @RequestBody FriendRequestAcceptRequestDto requestDto
     ) {
         friendRequestService.processAcceptFriendRequest(userId, requestId, requestDto);
+        return ResponseBody.toResponseEntity(ResponseCode.OK);
+    }
+
+    @PatchMapping("/reject/{requestId}")
+    public ResponseEntity<ResponseBody> rejectFriendRequest(
+        // todo: userId header 검증
+        @RequestHeader("X-USER-ID") Long userId,
+        @UUID @PathVariable("requestId") String requestId
+    ) {
+        friendRequestService.processRejectFriendRequest(userId, requestId);
         return ResponseBody.toResponseEntity(ResponseCode.OK);
     }
 }
