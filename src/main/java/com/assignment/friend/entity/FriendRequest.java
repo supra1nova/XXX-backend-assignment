@@ -6,6 +6,7 @@ import io.micrometer.common.util.StringUtils;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
 
@@ -23,17 +24,18 @@ import java.time.Instant;
         @Index(name = "idx_friend_request_to_from", columnList = "to_user_id, from_user_id")
     }
 )
+@EntityListeners(AuditingEntityListener.class)
 public class FriendRequest {
     @Id
     @Column(name = "request_id")
     private String requestId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "request_user_id", nullable = false)
+    @JoinColumn(name = "from_user_id", nullable = false)
     private User fromUser;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "recieve_user_id", nullable = false)
+    @JoinColumn(name = "to_user_id", nullable = false)
     private User toUser;
 
     @CreatedDate
@@ -51,7 +53,6 @@ public class FriendRequest {
         return FriendRequest.builder()
             .fromUser(fromUser)
             .toUser(toUser)
-            .requestedAt(Instant.now())
             .build();
     }
 }

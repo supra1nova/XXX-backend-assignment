@@ -90,7 +90,7 @@ public class FriendQueryDslRepositoryImpl implements FriendQueryDslRepository {
     }
 
     @Override
-    public void existsFriendByFromAndToUserId(Long fromUserId, Long toUserId) {
+    public boolean existsFriendByFromAndToUserId(Long fromUserId, Long toUserId) {
         BooleanBuilder condition = new BooleanBuilder();
 
         BooleanExpression doesFromUserRequest = qFriend.fromUser.userId.eq(fromUserId)
@@ -100,14 +100,10 @@ public class FriendQueryDslRepositoryImpl implements FriendQueryDslRepository {
 
         condition.andAnyOf(doesFromUserRequest, doesToUserRequest);
 
-        boolean existsFriend = queryFactory
+        return queryFactory
             .selectOne()
             .from(qFriend)
             .where(condition)
             .fetchFirst() != null;
-
-        if (existsFriend) {
-            throw new CustomException(ResponseCode.ALREADY_FRIENDS);
-        }
     }
 }

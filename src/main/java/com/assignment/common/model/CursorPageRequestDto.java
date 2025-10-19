@@ -9,8 +9,7 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.validator.constraints.Range;
-
-import java.util.UUID;
+import org.hibernate.validator.constraints.UUID;
 
 @Slf4j
 @Getter
@@ -18,7 +17,8 @@ import java.util.UUID;
 @SuperBuilder
 @NoArgsConstructor
 public class CursorPageRequestDto {
-    private UUID requestId;
+    @UUID
+    private String requestId;
 
     @Range(min = 10, max = 50, message = "10 ~ 50 사이의 크기만 로드 가능합니다.")
     private Integer maxSize;
