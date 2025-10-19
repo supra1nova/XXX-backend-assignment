@@ -56,7 +56,7 @@ SELECT  6,  6, 2,   FORMATDATETIME(CURRENT_TIMESTAMP(), '2025-02-13''T''00:00:00
 ;
 
 -- friend_requests data
-INSERT INTO friend_requests (request_id, request_user_id, recieve_user_id, requested_at)
+INSERT INTO friend_requests (request_id, from_user_id, to_user_id, requested_at)
 select  RANDOM_UUID(), 10, 2,   FORMATDATETIME(CURRENT_TIMESTAMP(), '2025-10-10''T''00:00:00.000''Z''')     UNION All
 select  RANDOM_UUID(), 11, 2,   FORMATDATETIME(CURRENT_TIMESTAMP(), '2025-10-11''T''00:00:00.000''Z''')     UNION All
 select  RANDOM_UUID(), 12, 2,   FORMATDATETIME(CURRENT_TIMESTAMP(), '2025-10-12''T''00:00:00.000''Z''')     UNION All

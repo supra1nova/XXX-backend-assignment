@@ -4,6 +4,7 @@ import com.assignment.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
 
@@ -24,6 +25,7 @@ import java.time.Instant;
         @Index(name = "idx_friends_to_user", columnList = "to_user_id")
     }
 )
+@EntityListeners(AuditingEntityListener.class)
 public class Friend {
     @EmbeddedId
     private FriendId friendId;
@@ -46,4 +48,16 @@ public class Friend {
     @CreatedDate
     @Column(name = "approved_at", nullable = false)
     private Instant approvedAt;
+
+    public static Friend create(User user, User fromUser, User toUser) {
+        if (!user.equals(fromUser) && !user.equals(toUser)) {
+            throw new IllegalArgumentException("user는 fromUser 또는 toUser와 동일해야 합니다.");
+        }
+        return Friend.builder()
+            .friendId(new FriendId(user.getUserId(), fromUser.getUserId(), toUser.getUserId()))
+            .user(user)
+            .fromUser(fromUser)
+            .toUser(toUser)
+            .build();
+    }
 }

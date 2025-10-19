@@ -81,4 +81,19 @@ public class FriendRequestQueryDslRepositoryImpl implements FriendRequestQueryDs
             .fetchFirst();
         return Optional.ofNullable(result);
     }
+
+    @Override
+    public Optional<FriendRequest> searchFriendRequestByAllIds(String requestId, Long fromUserId, Long toUserId) {
+        QFriendRequest friendRequest = QFriendRequest.friendRequest;
+
+        FriendRequest result = queryFactory
+            .selectFrom(friendRequest)
+            .where(
+                friendRequest.requestId.eq(requestId),
+                friendRequest.fromUser.userId.eq(fromUserId),
+                friendRequest.toUser.userId.eq(toUserId)
+            )
+            .fetchFirst();
+        return Optional.ofNullable(result);
+    }
 }

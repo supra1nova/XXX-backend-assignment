@@ -35,6 +35,7 @@ public enum ResponseCode {
     REQUESTER_NOT_FOUND(HttpStatus.NOT_FOUND, "E0D003", "요청 사용자 정보가 존재하지 않습니다"),
     RECEIVER_NOT_FOUND(HttpStatus.NOT_FOUND, "E0D004", "대상 사용자 정보가 존재하지 않습니다"),
     X_USER_ID_NOT_FOUND(HttpStatus.NOT_FOUND, "E0D005", "X-user-Id 값이 헤더에 존재하지 않습니다"),
+    FRIEND_REQUEST_NOT_FOUND(HttpStatus.BAD_REQUEST, "E00006", "친구 신청이 존재하지 않습니다."),
 
     /* 406 */
     INVALID_ACCEPT_HEADER(HttpStatus.NOT_ACCEPTABLE, "E0F001", "잘못된 Accept 입니다."),
