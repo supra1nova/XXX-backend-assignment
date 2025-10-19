@@ -65,7 +65,7 @@ public class FriendRequestService {
         }
 
         Optional<FriendRequest> existingRequestOpt =
-            friendRequestRepository.searchFriendRequestByFromAndToUserId(fromUserId, toUserId);
+            friendRequestRepository.searchFriendRequestByFromAndToUserIds(fromUserId, toUserId);
         if (existingRequestOpt.isPresent()) {
             FriendRequest friendRequest = existingRequestOpt.get();
 
@@ -98,6 +98,25 @@ public class FriendRequestService {
 
         friendRepository.save(Friend.create(friendRequest.getFromUser(), friendRequest.getFromUser(), friendRequest.getToUser()));
         friendRepository.save(Friend.create(friendRequest.getToUser(), friendRequest.getFromUser(), friendRequest.getToUser()));
+
+        friendRequestRepository.delete(friendRequest);
+    }
+
+    public void processRejectFriendRequest(Long toUserId, String requestId) {
+        // todo: interceptor 내 x-user-id 확인 로직 구현시 삭제
+        userRepository.findById(toUserId)
+            .orElseThrow(() -> new CustomException(ResponseCode.X_USER_ID_NOT_FOUND));
+
+        if (StringUtils.isBlank(requestId)) {
+            throw new CustomException(ResponseCode.INVALID_VALUES);
+        }
+
+        FriendRequest friendRequest = friendRequestRepository.searchFriendRequestByRequestAndToUserIds(
+            requestId,
+            toUserId
+        ).orElseThrow(() -> new CustomException(ResponseCode.FRIEND_REQUEST_NOT_FOUND));
+
+        // todo: 친구 신청 내역(history) 테이블에 저장
 
         friendRequestRepository.delete(friendRequest);
     }

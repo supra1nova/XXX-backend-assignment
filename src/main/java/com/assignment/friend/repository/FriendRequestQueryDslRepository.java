@@ -10,7 +10,9 @@ import java.util.Optional;
 public interface FriendRequestQueryDslRepository {
     List<FriendRequestListResponseDto> searchFriendRequests(Long userId, Long requestUserId, Cursorable cursorable);
 
-    Optional<FriendRequest> searchFriendRequestByFromAndToUserId(Long fromUserId, Long toUserId);
+    Optional<FriendRequest> searchFriendRequestByFromAndToUserIds(Long fromUserId, Long toUserId);
 
     Optional<FriendRequest> searchFriendRequestByAllIds(String requestId, Long fromUserId, Long toUserId);
+
+    Optional<FriendRequest> searchFriendRequestByRequestAndToUserIds(String requestId, Long toUserId);
 }
