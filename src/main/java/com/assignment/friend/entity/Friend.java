@@ -1,6 +1,5 @@
 package com.assignment.friend.entity;
 
-import com.assignment.friend.dto.FriendListResponseDto;
 import com.assignment.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -9,6 +8,10 @@ import org.springframework.data.annotation.CreatedDate;
 import java.time.Instant;
 
 @Entity
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Builder(access = AccessLevel.PRIVATE)
 @Table(
     name = "friends",
     indexes = {
@@ -21,10 +24,6 @@ import java.time.Instant;
         @Index(name = "idx_friends_to_user", columnList = "to_user_id")
     }
 )
-@Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Builder(access = AccessLevel.PRIVATE)
 public class Friend {
     @EmbeddedId
     private FriendId friendId;
@@ -47,13 +46,4 @@ public class Friend {
     @CreatedDate
     @Column(name = "approved_at", nullable = false)
     private Instant approvedAt;
-
-    public FriendListResponseDto toFriendListResponseDto() {
-        return FriendListResponseDto.builder()
-            .userId(user.getUserId())
-            .fromUserId(fromUser.getUserId())
-            .toUserId(toUser.getUserId())
-            .approvedAt(approvedAt)
-            .build();
-    }
 }
