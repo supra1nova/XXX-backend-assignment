@@ -23,12 +23,16 @@ public enum ResponseCode {
     INVALID_REQUEST(HttpStatus.BAD_REQUEST, "E00001", "잘못된 요청입니다."),
     INVALID_VALUES(HttpStatus.BAD_REQUEST, "E00002", "입력값이 올바르지 않습니다."),
     INVALID_X_USER_ID(HttpStatus.BAD_REQUEST, "E00003", "헤더값이 올바르지 않습니다."),
+    CANNOT_SELF_FRIEND_REQUEST(HttpStatus.BAD_REQUEST, "E00004", "친구 신청은 스스로에게 할 수 없습니다."),
+    ALREADY_FRIENDS(HttpStatus.BAD_REQUEST, "E00005", "이미 친구인 상대에게는 친구 신청을 할 수 없습니다."),
+    FRIEND_REQUEST_ALREADY_SENT(HttpStatus.BAD_REQUEST, "E00006", "친구 신청이 이미 요청되었습니다."),
+    FRIEND_REQUEST_ALREADY_RECEIVED(HttpStatus.BAD_REQUEST, "E00007", "상대로부터 받은 친구 신청이 이미 존재합니다."),
 
     /* 404 */
     RESOURCE_NOT_FOUND(HttpStatus.NOT_FOUND, "E0D001", "리소스가 존재하지 않습니다."),
 
     PATH_NOT_FOUND(HttpStatus.NOT_FOUND, "E0D002", "잘못된 요청 경로입니다"),
-    REQUESTER_NOT_FOUND(HttpStatus.NOT_FOUND, "E0D003", "요청한 사용자 정보가 존재하지 않습니다"),
+    REQUESTER_NOT_FOUND(HttpStatus.NOT_FOUND, "E0D003", "요청 사용자 정보가 존재하지 않습니다"),
     RECEIVER_NOT_FOUND(HttpStatus.NOT_FOUND, "E0D004", "대상 사용자 정보가 존재하지 않습니다"),
     X_USER_ID_NOT_FOUND(HttpStatus.NOT_FOUND, "E0D005", "X-user-Id 값이 헤더에 존재하지 않습니다"),
 

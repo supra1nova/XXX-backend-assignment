@@ -4,10 +4,7 @@ import com.assignment.common.model.CursorPageResponseDto;
 import com.assignment.common.model.PageResponseDto;
 import com.assignment.common.model.ResponseBody;
 import com.assignment.common.model.ResponseCode;
-import com.assignment.friend.dto.FriendListRequestDto;
-import com.assignment.friend.dto.FriendListResponseDto;
-import com.assignment.friend.dto.FriendRequestListRequestDto;
-import com.assignment.friend.dto.FriendRequestListResponseDto;
+import com.assignment.friend.dto.*;
 import com.assignment.friend.service.FriendRequestService;
 import com.assignment.friend.service.FriendService;
 import jakarta.validation.Valid;
@@ -15,10 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -46,5 +40,15 @@ public class FriendController {
     ) {
         CursorPageResponseDto<FriendRequestListResponseDto> data = friendRequestService.selectFriendRequestList(userId, requestDto);
         return ResponseBody.toResponseEntity(ResponseCode.OK, data);
+    }
+
+    @PostMapping()
+    public ResponseEntity<ResponseBody> createFriendRequest(
+        // todo: userId header 검증
+        @RequestHeader(value = "X-USER-ID") Long userId,
+        @RequestBody() FriendRequestCreateRequestDto requestDto
+    ) {
+        friendRequestService.insertFriendRequest(userId, requestDto);
+        return ResponseBody.toResponseEntity(ResponseCode.CREATED);
     }
 }

@@ -6,15 +6,14 @@ import lombok.Getter;
 @Getter
 public class CustomException extends RuntimeException {
     private final ResponseCode responseCode;
-    private final Exception exception;
 
     public CustomException(ResponseCode responseCode) {
+        super(responseCode.getDetail());
         this.responseCode = responseCode;
-        this.exception = new RuntimeException(responseCode.getDetail());
     }
 
-    public CustomException(ResponseCode responseCode, Exception exception) {
+    public CustomException(ResponseCode responseCode, Exception cause) {
+        super(responseCode.getDetail(), cause);
         this.responseCode = responseCode;
-        this.exception = exception;
     }
 }
