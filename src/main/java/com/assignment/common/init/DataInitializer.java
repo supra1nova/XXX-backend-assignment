@@ -1,7 +1,7 @@
 package com.assignment.common.init;
 
-import com.assignment.friend.entity.Friend;
-import com.assignment.user.entity.User;
+import com.assignment.domain.friend.entity.Friend;
+import com.assignment.domain.user.entity.User;
 import jakarta.annotation.PreDestroy;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

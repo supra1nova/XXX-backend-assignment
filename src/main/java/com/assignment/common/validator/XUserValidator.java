@@ -2,8 +2,8 @@ package com.assignment.common.validator;
 
 import com.assignment.common.exception.CustomException;
 import com.assignment.common.model.ResponseCode;
-import com.assignment.user.entity.User;
-import com.assignment.user.repository.UserRepository;
+import com.assignment.domain.user.entity.User;
+import com.assignment.domain.user.repository.UserRepository;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import lombok.RequiredArgsConstructor;

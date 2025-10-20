@@ -45,7 +45,15 @@ public class TestApiService {
             .toList();
 
         // 모든 요청 완료 대기
-        CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
+//        CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
+        CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]))
+            .handle((result, ex) -> {
+                if (ex != null) {
+                    log.error("비동기 요청 중 예외 발생", ex);
+                }
+                return null;
+            })
+            .join();
 
         log.info(ALL_SUCCESS_MESSAGE);
     }
