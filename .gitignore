@@ -39,4 +39,4 @@ out/
 ### Customized ###
 src/main/generated/
 .DS_Store
-application.yml
+#application.yml
