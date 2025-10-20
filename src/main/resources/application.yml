@@ -46,14 +46,6 @@ springdoc:
     operations-sorter: alpha
     tags-sorter: alpha
 
-#logging:
-#  level:
-#    org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener: off
-#    org.springframework.web.servlet.resource: error
-#    org.hibernate.orm.connections.pooling: warn
-#    org.hibernate.type.descriptor.sql.BasicBinder: trace
-#    org.hibernate.SQL: off
-
 custom:
   redis:
     rate-limit: 10
