@@ -2,6 +2,7 @@ package com.assignment.api.user;
 
 import com.assignment.common.model.*;
 import com.assignment.domain.user.dto.UserListRequestDto;
+import com.assignment.domain.user.dto.UserListResponseDto;
 import com.assignment.domain.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -28,10 +29,10 @@ public class UserController {
             """
     )
     @GetMapping
-    public ResponseEntity<PageResponseDto<com.assignment.user.dto.UserListResponseDto>> getUserList(
+    public ResponseEntity<PageResponseDto<UserListResponseDto>> getUserList(
         @ParameterObject @Valid UserListRequestDto requestDto
     ) {
-        PageResponseDto<com.assignment.user.dto.UserListResponseDto> data = userService.findUserList(requestDto);
+        PageResponseDto<UserListResponseDto> data = userService.findUserList(requestDto);
         return ResponseBody.toResponseEntity(ResponseCode.OK, data);
     }
 }
