@@ -30,6 +30,7 @@ public enum ResponseCode {
     FRIEND_REQUEST_ALREADY_RECEIVED(HttpStatus.BAD_REQUEST, "E00008", "상대로부터 받은 친구 신청이 이미 존재합니다."),
     INVALID_REQUEST_ID(HttpStatus.BAD_REQUEST, "E00009", "친구 신청이 존재하지 않습니다."),
     INVALID_FRIEND_REQUEST(HttpStatus.BAD_REQUEST, "E00010", "잘못된 친구 신청 요청값 입니다."),
+    INVALID_TYPE_ERROR(HttpStatus.BAD_REQUEST, "E00011", "잘못된 타입의 입력값 입니다."),
 
     /* 404 */
     RESOURCE_NOT_FOUND(HttpStatus.NOT_FOUND, "E0D001", "리소스가 존재하지 않습니다."),

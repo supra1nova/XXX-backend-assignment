@@ -13,6 +13,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
@@ -24,6 +25,13 @@ public class ExceptionAdvice {
         CommonUtils.printRequestObject(req);
         ExceptionUtils.printException("CustomException", req, e);
         return resp(e.getResponseCode(), e);
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public Object handleMethodArgumentTypeMismatchException(HttpServletRequest req, MethodArgumentTypeMismatchException e) {
+            CommonUtils.printRequestObject(req);
+            ExceptionUtils.printException("MethodArgumentTypeMismatchException", req, e);
+            return resp(ResponseCode.INVALID_TYPE_ERROR, e);
     }
 
     @ExceptionHandler(RateLimitExceededException.class)
