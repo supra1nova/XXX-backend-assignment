@@ -1,5 +1,6 @@
 package com.assignment.common.model;
 
+import com.assignment.common.validator.EpochUUID;
 import com.assignment.common.validator.In;
 import com.querydsl.core.types.Order;
 import io.micrometer.common.util.StringUtils;
@@ -9,7 +10,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.validator.constraints.Range;
-import org.hibernate.validator.constraints.UUID;
 
 @Schema(description = "요청용 커서 페이지네이션 DTO")
 @Getter
@@ -18,7 +18,7 @@ import org.hibernate.validator.constraints.UUID;
 @NoArgsConstructor
 public class CursorPageRequestDto {
     @Schema(description = "대상 커서 ID (uuid 형식)", example = "8bc3930e-e314-4129-b401-8b31475f0606")
-    @UUID
+    @EpochUUID(optional = true)
     private String requestId;
 
     @Schema(description = "최대 로드 수량 (min:10, max:50)", example = "20")

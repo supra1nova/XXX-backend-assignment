@@ -14,7 +14,6 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.validator.constraints.UUID;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -47,8 +46,8 @@ public class FriendController {
         @XUserId(optional = true)
         @RequestHeader(value = "X-USER-ID", required = false)
         Long userId,
-        @ParameterObject
         @Valid
+        @ParameterObject
         FriendListRequestDto requestDto
     ) {
         PageResponseDto<FriendListResponseDto> data = friendService.selectFriendList(userId, requestDto);
@@ -69,8 +68,8 @@ public class FriendController {
         @XUserId
         @RequestHeader("X-USER-ID")
         Long userId,
-        @ParameterObject
         @Valid
+        @ParameterObject
         FriendRequestListRequestDto requestDto
     ) {
         CursorPageResponseDto<FriendRequestListResponseDto> data = friendRequestService.selectFriendRequestList(userId, requestDto);
@@ -87,8 +86,8 @@ public class FriendController {
     )
     @GetMapping("/history")
     public ResponseEntity<PageResponseDto<FriendRequestHistoryListResponseDto>> getFriendRequestHistory(
-        @ParameterObject
         @Valid
+        @ParameterObject
         FriendRequestHistoryListRequestDto requestDto
     ) {
         PageResponseDto<FriendRequestHistoryListResponseDto> data = friendRequestHistoryService.findFriendRequestHistoryList(requestDto);
@@ -136,8 +135,8 @@ public class FriendController {
         @XUserId
         @RequestHeader("X-USER-ID")
         Long userId,
+        @Valid
         @Parameter(description = "친구 신청 식별값", example = "8bc3930e-e314-4129-b401-8b31475f0606", in = ParameterIn.PATH)
-        @UUID
         @PathVariable("requestId")
         String requestId,
         @RequestBody
@@ -162,8 +161,8 @@ public class FriendController {
         @XUserId
         @RequestHeader("X-USER-ID")
         Long userId,
+        @Valid
         @Parameter(description = "친구 신청 식별값", example = "706626f9-86fd-415f-b38d-99cd0f81de64", in = ParameterIn.PATH)
-        @UUID
         @PathVariable("requestId")
         String requestId
     ) {
