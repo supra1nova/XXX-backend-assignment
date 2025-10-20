@@ -16,7 +16,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -45,20 +44,18 @@ public class FriendQueryDslRepositoryImpl implements FriendQueryDslRepository {
             condition.and(qFriend.toUser.userId.eq(toUserId));
         }
 
-        List<OrderSpecifier<?>> orders = new ArrayList<>();
-        for (Sort.Order sortOrder : pageable.getSort()) {
-            Order direction = sortOrder.isAscending() ? Order.ASC : Order.DESC;
-            String property = sortOrder.getProperty();
+        Sort.Order sortOrder = pageable.getSort().stream().findFirst()
+            .orElse(new Sort.Order(Sort.Direction.DESC, "approvedAt"));
 
-            switch (property) {
-                case "userId" -> orders.add(new OrderSpecifier<>(direction, qFriend.user.userId));
-                case "fromUserId" ->
-                    orders.add(new OrderSpecifier<>(direction, qFriend.fromUser.userId));
-                case "toUserId" ->
-                    orders.add(new OrderSpecifier<>(direction, qFriend.toUser.userId));
-                default -> orders.add(new OrderSpecifier<>(direction, qFriend.approvedAt));
-            }
-        }
+        Order direction = sortOrder.isAscending() ? Order.ASC : Order.DESC;
+        String property = sortOrder.getProperty();
+
+        OrderSpecifier<?> orderSpecifier = switch (property) {
+            case "userId" -> new OrderSpecifier<>(direction, qFriend.user.userId);
+            case "fromUserId" -> new OrderSpecifier<>(direction, qFriend.fromUser.userId);
+            case "toUserId" -> new OrderSpecifier<>(direction, qFriend.toUser.userId);
+            default -> new OrderSpecifier<>(direction, qFriend.approvedAt);
+        };
 
         List<FriendListResponseDto> content = queryFactory
             .select(Projections.constructor(FriendListResponseDto.class,
@@ -69,7 +66,7 @@ public class FriendQueryDslRepositoryImpl implements FriendQueryDslRepository {
             )
             .from(qFriend)
             .where(condition)
-            .orderBy(orders.toArray(new OrderSpecifier[0]))
+            .orderBy(orderSpecifier)
             .offset(pageable.getOffset())
             .limit(pageable.getPageSize())
             .fetch();
