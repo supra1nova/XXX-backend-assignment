@@ -1,6 +1,6 @@
 package com.assignment.user.entity;
 
-import com.assignment.common.model.UserListResponseDto;
+import com.assignment.user.dto.UserListResponseDto;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;

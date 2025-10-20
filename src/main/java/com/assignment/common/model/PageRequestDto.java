@@ -33,8 +33,6 @@ public class PageRequestDto {
     }
 
     public Pageable toPageable(String sort) {
-        // todo: api spec 상에는 0으로 전달하고 있음
-        //  ->spec 을 무시하고 1로 받을지, psec에 따라 0으로 받고 -1을 뺄지 고민 필요
         page = Math.max(page - 1, 0);
 
         String[] sortParts = sort.split(",");
