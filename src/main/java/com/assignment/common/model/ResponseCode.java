@@ -28,6 +28,8 @@ public enum ResponseCode {
     ALREADY_FRIENDS(HttpStatus.BAD_REQUEST, "E00006", "이미 친구인 상대에게는 친구 신청을 할 수 없습니다."),
     FRIEND_REQUEST_ALREADY_SENT(HttpStatus.BAD_REQUEST, "E00007", "친구 신청이 이미 요청되었습니다."),
     FRIEND_REQUEST_ALREADY_RECEIVED(HttpStatus.BAD_REQUEST, "E00008", "상대로부터 받은 친구 신청이 이미 존재합니다."),
+    INVALID_REQUEST_ID(HttpStatus.BAD_REQUEST, "E00009", "친구 신청이 존재하지 않습니다."),
+    INVALID_FRIEND_REQUEST(HttpStatus.BAD_REQUEST, "E00010", "잘못된 친구 신청 요청값 입니다."),
 
     /* 404 */
     RESOURCE_NOT_FOUND(HttpStatus.NOT_FOUND, "E0D001", "리소스가 존재하지 않습니다."),
@@ -36,7 +38,7 @@ public enum ResponseCode {
     REQUESTER_NOT_FOUND(HttpStatus.NOT_FOUND, "E0D003", "요청 사용자 정보가 존재하지 않습니다"),
     RECEIVER_NOT_FOUND(HttpStatus.NOT_FOUND, "E0D004", "대상 사용자 정보가 존재하지 않습니다"),
     X_USER_ID_NOT_FOUND(HttpStatus.NOT_FOUND, "E0D005", "X-user-Id 값이 헤더에 존재하지 않습니다"),
-    FRIEND_REQUEST_NOT_FOUND(HttpStatus.BAD_REQUEST, "E00006", "친구 신청이 존재하지 않습니다."),
+    FRIEND_REQUEST_NOT_FOUND(HttpStatus.NOT_FOUND, "E00006", "친구 신청이 존재하지 않습니다."),
 
     /* 406 */
     INVALID_ACCEPT_HEADER(HttpStatus.NOT_ACCEPTABLE, "E0F001", "잘못된 Accept 입니다."),
@@ -51,8 +53,8 @@ public enum ResponseCode {
     INVALID_REQUEST_STATE(HttpStatus.UNPROCESSABLE_ENTITY, "EBB001", "이미 처리된 요청입니다."),
 
     /* 429 */
-    RATE_LIMIT_EXCEEDED(HttpStatus.UNPROCESSABLE_ENTITY, "EBI001", "요청이 너무 많습니다. 잠시 후 다시 시도해주세요."),
-    ANOTHER_REQUEST_PROCESSING(HttpStatus.UNPROCESSABLE_ENTITY, "EBI002", "이미 처리중인 요청이 존재합니다. 잠시 후 다시 시도해주세요."),
+    RATE_LIMIT_EXCEEDED(HttpStatus.TOO_MANY_REQUESTS, "EBI001", "요청이 너무 많습니다. 잠시 후 다시 시도해주세요."),
+    ANOTHER_REQUEST_PROCESSING(HttpStatus.TOO_MANY_REQUESTS, "EBI002", "이미 처리중인 요청이 존재합니다. 잠시 후 다시 시도해주세요."),
 
     /* 500 */
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "U00001", "서버 내부 오류가 발생했습니다."),

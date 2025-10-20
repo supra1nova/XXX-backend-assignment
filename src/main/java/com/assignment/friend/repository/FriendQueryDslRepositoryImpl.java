@@ -1,7 +1,5 @@
 package com.assignment.friend.repository;
 
-import com.assignment.common.exception.CustomException;
-import com.assignment.common.model.ResponseCode;
 import com.assignment.friend.dto.FriendListResponseDto;
 import com.assignment.friend.entity.QFriend;
 import com.querydsl.core.BooleanBuilder;
