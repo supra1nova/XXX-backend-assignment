@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+@Schema(description = "요청용 페이지네이션 DTO")
 @Slf4j
 @Getter
 @Setter

@@ -1,9 +1,7 @@
 package com.assignment.friend.controller;
 
-import com.assignment.common.model.CursorPageResponseDto;
-import com.assignment.common.model.PageResponseDto;
+import com.assignment.common.model.*;
 import com.assignment.common.model.ResponseBody;
-import com.assignment.common.model.ResponseCode;
 import com.assignment.common.validator.XUserId;
 import com.assignment.common.webclient.TestApiService;
 import com.assignment.friend.dto.*;
@@ -46,9 +44,11 @@ public class FriendController {
     @GetMapping()
     public ResponseEntity<PageResponseDto<FriendListResponseDto>> getSpecificUserFriendList(
         @Parameter(description = "사용자 식별 헤더", example = "2")
-        @XUserId(optional = true) @RequestHeader(value = "X-USER-ID", required = false)
+        @XUserId(optional = true)
+        @RequestHeader(value = "X-USER-ID", required = false)
         Long userId,
-        @ParameterObject @Valid
+        @ParameterObject
+        @Valid
         FriendListRequestDto requestDto
     ) {
         PageResponseDto<FriendListResponseDto> data = friendService.selectFriendList(userId, requestDto);
@@ -66,9 +66,11 @@ public class FriendController {
     @GetMapping("/requests")
     public ResponseEntity<CursorPageResponseDto<FriendRequestListResponseDto>> getFriendRequestList(
         @Parameter(description = "사용자 식별 헤더", example = "2", required = true)
-        @XUserId @RequestHeader("X-USER-ID")
+        @XUserId
+        @RequestHeader("X-USER-ID")
         Long userId,
-        @ParameterObject @Valid
+        @ParameterObject
+        @Valid
         FriendRequestListRequestDto requestDto
     ) {
         CursorPageResponseDto<FriendRequestListResponseDto> data = friendRequestService.selectFriendRequestList(userId, requestDto);
@@ -85,7 +87,9 @@ public class FriendController {
     )
     @GetMapping("/history")
     public ResponseEntity<PageResponseDto<FriendRequestHistoryListResponseDto>> getFriendRequestHistory(
-        @ParameterObject FriendRequestHistoryListRequestDto requestDto
+        @ParameterObject
+        @Valid
+        FriendRequestHistoryListRequestDto requestDto
     ) {
         PageResponseDto<FriendRequestHistoryListResponseDto> data = friendRequestHistoryService.findFriendRequestHistoryList(requestDto);
         return ResponseBody.toResponseEntity(ResponseCode.OK, data);
@@ -107,7 +111,8 @@ public class FriendController {
     @PostMapping("/request")
     public ResponseEntity<ResponseBody> submitFriendRequest(
         @Parameter(description = "사용자 식별 헤더", example = "2", required = true)
-        @XUserId @RequestHeader("X-USER-ID")
+        @XUserId
+        @RequestHeader("X-USER-ID")
         Long userId,
         @RequestBody
         FriendRequestCreateRequestDto requestDto
@@ -115,7 +120,6 @@ public class FriendController {
         friendRequestService.processSubmitFriendRequest(userId, requestDto);
         return ResponseBody.toResponseEntity(ResponseCode.CREATED);
     }
-
 
     @Operation(
         tags = {"2.5.Accept Friend Request API"},
@@ -129,10 +133,12 @@ public class FriendController {
     @PatchMapping("/accept/{requestId}")
     public ResponseEntity<ResponseBody> acceptFriendRequest(
         @Parameter(description = "사용자 식별 헤더", example = "2", required = true)
-        @XUserId @RequestHeader("X-USER-ID")
+        @XUserId
+        @RequestHeader("X-USER-ID")
         Long userId,
         @Parameter(description = "친구 신청 식별값", example = "8bc3930e-e314-4129-b401-8b31475f0606", in = ParameterIn.PATH)
-        @UUID @PathVariable("requestId")
+        @UUID
+        @PathVariable("requestId")
         String requestId,
         @RequestBody
         FriendRequestAcceptRequestDto requestDto
@@ -153,16 +159,17 @@ public class FriendController {
     @PatchMapping("/reject/{requestId}")
     public ResponseEntity<ResponseBody> rejectFriendRequest(
         @Parameter(description = "사용자 식별 헤더", example = "2", required = true)
-        @XUserId @RequestHeader("X-USER-ID")
+        @XUserId
+        @RequestHeader("X-USER-ID")
         Long userId,
         @Parameter(description = "친구 신청 식별값", example = "706626f9-86fd-415f-b38d-99cd0f81de64", in = ParameterIn.PATH)
-        @UUID @PathVariable("requestId")
+        @UUID
+        @PathVariable("requestId")
         String requestId
     ) {
         friendRequestService.processRejectFriendRequest(userId, requestId);
         return ResponseBody.toResponseEntity(ResponseCode.OK);
     }
-
 
     @Operation(
         tags = {"3.Rate Limit Test API"},

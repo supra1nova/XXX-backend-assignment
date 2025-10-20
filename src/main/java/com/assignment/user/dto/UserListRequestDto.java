@@ -11,6 +11,7 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.validator.constraints.Range;
 
+@Schema(description = "요청용 친구 목록 DTO")
 @Getter
 @Setter
 @SuperBuilder

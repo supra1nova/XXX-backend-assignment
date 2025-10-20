@@ -5,6 +5,7 @@ import com.assignment.common.model.ResponseCode;
 import com.assignment.common.utils.CommonUtils;
 import com.assignment.common.utils.ExceptionUtils;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.ValidationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -30,6 +31,12 @@ public class ExceptionAdvice {
         CommonUtils.printRequestObject(req);
         ExceptionUtils.printException("RateLimitExceededException", req, e);
         return resp(ResponseCode.RATE_LIMIT_EXCEEDED, e);
+    }
+
+    @ExceptionHandler(ValidationException.class)
+    public Object handleValidationException(HttpServletRequest req, ValidationException e) {
+        ExceptionUtils.printException("ValidationException", req, e);
+        return resp(ResponseCode.INVALID_VALUES, e);
     }
 
     @ExceptionHandler(MissingRequestHeaderException.class)

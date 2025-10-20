@@ -1,13 +1,9 @@
 package com.assignment.user.controller;
 
-import com.assignment.common.model.PageResponseDto;
-import com.assignment.common.model.ResponseBody;
-import com.assignment.common.model.ResponseCode;
-import com.assignment.common.model.UserListResponseDto;
+import com.assignment.common.model.*;
 import com.assignment.user.dto.UserListRequestDto;
 import com.assignment.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
