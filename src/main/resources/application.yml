@@ -1,0 +1,61 @@
+app:
+  title: apr-backend-assignment
+  description: apr-backend-assignment
+  version: 0.0.1
+
+spring.application.name: assigment
+
+server:
+  port: 9090
+
+spring:
+  main:
+    banner-mode: off
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      timeout: 2s
+  datasource:
+    url: jdbc:log4jdbc:h2:mem:testdb;MODE=PostgreSQL;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    open-in-view: false
+    hibernate:
+      ddl-auto: create
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
+      encoding: UTF-8
+      schema-locations: classpath:db/schema.sql
+      data-locations: classpath:db/data.sql
+
+springdoc:
+  swagger-ui:
+    operations-sorter: alpha
+    tags-sorter: alpha
+
+#logging:
+#  level:
+#    org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener: off
+#    org.springframework.web.servlet.resource: error
+#    org.hibernate.orm.connections.pooling: warn
+#    org.hibernate.type.descriptor.sql.BasicBinder: trace
+#    org.hibernate.SQL: off
+
+custom:
+  redis:
+    rate-limit: 10
+    rate-ttl: 1000
+    lock-ttl: 1000
