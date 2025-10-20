@@ -34,7 +34,6 @@ dependencies {
 
     implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
 
-    implementation 'com.github.f4b6a3:ulid-creator:5.2.3'
     implementation 'com.github.f4b6a3:uuid-creator:6.1.1'
     implementation 'com.github.f4b6a3:tsid-creator:5.2.6'
 

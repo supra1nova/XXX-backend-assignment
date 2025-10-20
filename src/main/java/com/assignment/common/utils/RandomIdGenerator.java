@@ -1,11 +1,9 @@
 package com.assignment.common.utils;
 
 import com.github.f4b6a3.tsid.TsidFactory;
-import com.github.f4b6a3.ulid.UlidFactory;
 import com.github.f4b6a3.uuid.UuidCreator;
 
 public final class RandomIdGenerator {
-    private static final UlidFactory ULID_FACTORY = UlidFactory.newMonotonicInstance();
     private static final TsidFactory TSID_FACTORY = TsidFactory.newInstance1024();
 
     private RandomIdGenerator() {}
@@ -24,22 +22,6 @@ public final class RandomIdGenerator {
      */
     public static String epochUuid() {
         return UuidCreator.getTimeOrderedEpoch().toString();
-    }
-
-    /**
-     * 기본 ULID (비단조)
-     * 26자
-     */
-    public static String ulid() {
-        return UlidFactory.newInstance().create().toString();
-    }
-
-    /**
-     * monotonic ULID (시간 순 + 전역 monotonic)
-     * 26자
-     */
-    public static String monotonicUlid() {
-        return ULID_FACTORY.create().toString();
     }
 
     /**
