@@ -40,7 +40,7 @@ public class DataInitializer implements CommandLineRunner {
 
         List<User> users = jdbcTemplate.query("""
                 SELECT user_id, user_name, user_age 
-                FROM users
+                FROM tb_user
                 WHERE user_id > 20
                 """,
             (rs, rowNum) -> User.restore(
@@ -94,7 +94,7 @@ public class DataInitializer implements CommandLineRunner {
 
     private void batchInsertUsers(List<User> users) {
         jdbcTemplate.batchUpdate(
-            "INSERT INTO users (user_id, user_name, user_age, created_at) VALUES (NEXT VALUE FOR user_seq, ?, ?, ?)",
+            "INSERT INTO tb_user (user_id, user_name, user_age, created_at) VALUES (NEXT VALUE FOR user_seq, ?, ?, ?)",
             users,
             BATCH_SIZE,
             (ps, user) -> {
@@ -155,7 +155,7 @@ public class DataInitializer implements CommandLineRunner {
 
     private void batchInsertFriends(List<Friend> friends) {
         jdbcTemplate.batchUpdate(
-            "INSERT INTO friends (user_id, from_user_id, to_user_id, approved_at) VALUES (?, ?, ?, ?)",
+            "INSERT INTO tb_friend (user_id, from_user_id, to_user_id, approved_at) VALUES (?, ?, ?, ?)",
             friends,
             BATCH_SIZE,
             (ps, friend) -> {

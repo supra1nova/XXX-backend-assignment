@@ -14,7 +14,7 @@ import java.time.Instant;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder(access = AccessLevel.PRIVATE)
 @Table(
-    name = "friends",
+    name = "tb_friend",
     indexes = {
         @Index(name = "idx_friends_user_id", columnList = "user_id"),
         @Index(name = "idx_friends_from_to", columnList = "from_user_id, to_user_id"),

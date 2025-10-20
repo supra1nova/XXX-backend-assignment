@@ -18,7 +18,7 @@ import java.time.Instant;
     sequenceName = "user_seq",
     allocationSize = 1
 )
-@Table(name = "users")
+@Table(name = "tb_user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq_gen")
