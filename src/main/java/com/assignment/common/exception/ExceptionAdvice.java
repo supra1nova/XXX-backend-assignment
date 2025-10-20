@@ -4,10 +4,13 @@ import com.assignment.common.model.ResponseBody;
 import com.assignment.common.model.ResponseCode;
 import com.assignment.common.utils.CommonUtils;
 import com.assignment.common.utils.ExceptionUtils;
+import io.lettuce.core.RedisCommandTimeoutException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ValidationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.redis.RedisConnectionFailureException;
+import org.springframework.data.redis.RedisSystemException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingRequestHeaderException;
@@ -16,6 +19,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
+
+import java.util.concurrent.CompletionException;
 
 @Slf4j
 @RestControllerAdvice
@@ -32,6 +37,28 @@ public class ExceptionAdvice {
             CommonUtils.printRequestObject(req);
             ExceptionUtils.printException("MethodArgumentTypeMismatchException", req, e);
             return resp(ResponseCode.INVALID_TYPE_ERROR, e);
+    }
+
+    @ExceptionHandler(CompletionException.class)
+    public Object handleCompletionException(HttpServletRequest req, CompletionException e) {
+        Throwable cause = e.getCause();
+
+        if (cause instanceof RedisConnectionFailureException ec) {
+            ExceptionUtils.printException("CompletionException", req, ec);
+            return resp(ResponseCode.REDIS_CONNECTION_ERROR, ec);
+        } else if (cause instanceof RedisSystemException ec) {
+            ExceptionUtils.printException("CompletionException", req, ec);
+            return resp(ResponseCode.REDIS_SYSTEM_ERROR, ec);
+        } else if (cause instanceof RedisCommandTimeoutException ec) {
+            ExceptionUtils.printException("CompletionException", req, ec);
+            return resp(ResponseCode.REDIS_COMMAND_TIMEOUT_ERROR, ec);
+        } else if (cause instanceof CustomException ec) {
+            ExceptionUtils.printException("CompletionException", req, ec);
+            return resp(ec.getResponseCode(), ec);
+        }
+
+        ExceptionUtils.printException("CompletionException", req, e);
+        return resp(ResponseCode.INTERNAL_SERVER_ERROR, (Exception) cause);
     }
 
     @ExceptionHandler(RateLimitExceededException.class)

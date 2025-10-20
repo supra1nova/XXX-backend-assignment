@@ -60,6 +60,11 @@ public enum ResponseCode {
     /* 500 */
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "U00001", "서버 내부 오류가 발생했습니다."),
     SERVICE_UNAVAILABLE(HttpStatus.SERVICE_UNAVAILABLE, "U00002", "현재 서버가 일시적으로 응답할 수 없습니다"),
+
+    /* 503 */
+    REDIS_CONNECTION_ERROR(HttpStatus.SERVICE_UNAVAILABLE, "U0C001", "서버 내부 오류가 발생했습니다."),
+    REDIS_SYSTEM_ERROR(HttpStatus.SERVICE_UNAVAILABLE, "U0C002", "서버 내부 오류가 발생했습니다."),
+    REDIS_COMMAND_TIMEOUT_ERROR(HttpStatus.SERVICE_UNAVAILABLE, "U0C003", "서버 내부 오류가 발생했습니다."),
     ;
 
     private final HttpStatus httpStatus;
