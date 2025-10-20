@@ -1,4 +1,4 @@
-package com.assignment.common.model;
+package com.assignment.user.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;

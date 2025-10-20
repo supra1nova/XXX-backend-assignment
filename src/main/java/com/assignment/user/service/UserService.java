@@ -1,7 +1,7 @@
 package com.assignment.user.service;
 
 import com.assignment.common.model.PageResponseDto;
-import com.assignment.common.model.UserListResponseDto;
+import com.assignment.user.dto.UserListResponseDto;
 import com.assignment.user.dto.UserListRequestDto;
 import com.assignment.user.entity.User;
 import com.assignment.user.repository.UserRepository;

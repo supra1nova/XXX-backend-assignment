@@ -2,6 +2,7 @@ package com.assignment.user.controller;
 
 import com.assignment.common.model.*;
 import com.assignment.user.dto.UserListRequestDto;
+import com.assignment.user.dto.UserListResponseDto;
 import com.assignment.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
