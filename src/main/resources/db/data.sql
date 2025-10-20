@@ -1,5 +1,5 @@
--- users data
-INSERT INTO users (user_id, user_age, user_name, created_at, updated_at)
+-- tb_user data
+INSERT INTO tb_user (user_id, user_age, user_name, created_at, updated_at)
 SELECT NEXT VALUE FOR user_seq, 50, '박은주000',      FORMATDATETIME(CURRENT_TIMESTAMP(), '2025-01-01''T''00:00:00.000''Z'''),  NULL  UNION All
 SELECT NEXT VALUE FOR user_seq, 48,	'선우서윤001',    FORMATDATETIME(CURRENT_TIMESTAMP(), '2025-01-02''T''00:00:00.000''Z'''),  NULL  UNION All
 SELECT NEXT VALUE FOR user_seq, 64,	'임서현002',      FORMATDATETIME(CURRENT_TIMESTAMP(), '2025-01-03''T''00:00:00.000''Z'''),  NULL  UNION All
@@ -22,8 +22,8 @@ SELECT NEXT VALUE FOR user_seq, 59,	'강윤018',        FORMATDATETIME(CURRENT_T
 SELECT NEXT VALUE FOR user_seq, 57,	'안윤019',        FORMATDATETIME(CURRENT_TIMESTAMP(), '2025-01-20''T''00:00:00.000''Z'''),  NULL
 ;
 
--- friends data
-INSERT INTO friends (user_id, from_user_id, to_user_id, approved_at)
+-- tb_friends data
+INSERT INTO tb_friend (user_id, from_user_id, to_user_id, approved_at)
 SELECT  1,  2, 1,   FORMATDATETIME(CURRENT_TIMESTAMP(), '2025-02-01''T''00:00:00.000''Z''')     UNION All
 SELECT  1,  3, 1,   FORMATDATETIME(CURRENT_TIMESTAMP(), '2025-02-02''T''00:00:00.000''Z''')     UNION All
 SELECT  1,  4, 1,   FORMATDATETIME(CURRENT_TIMESTAMP(), '2025-02-03''T''00:00:00.000''Z''')     UNION All
@@ -55,8 +55,8 @@ SELECT  5,  5, 2,   FORMATDATETIME(CURRENT_TIMESTAMP(), '2025-02-12''T''00:00:00
 SELECT  6,  6, 2,   FORMATDATETIME(CURRENT_TIMESTAMP(), '2025-02-13''T''00:00:00.000''Z''')
 ;
 
--- friend_requests data
-INSERT INTO friend_requests (request_id, from_user_id, to_user_id, requested_at)
+-- tb_friend_request data
+INSERT INTO tb_friend_request (request_id, from_user_id, to_user_id, requested_at)
 select  '8bc3930e-e314-4129-b401-8b31475f0606', 10, 2,   FORMATDATETIME(CURRENT_TIMESTAMP(), '2025-10-10''T''00:00:00.000''Z''')     UNION All
 select  '706626f9-86fd-415f-b38d-99cd0f81de64', 11, 2,   FORMATDATETIME(CURRENT_TIMESTAMP(), '2025-10-11''T''00:00:00.000''Z''')     UNION All
 select  '94042fc3-8f67-4e2e-8365-c4afa78e31ea', 12, 2,   FORMATDATETIME(CURRENT_TIMESTAMP(), '2025-10-12''T''00:00:00.000''Z''')     UNION All
