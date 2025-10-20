@@ -55,7 +55,7 @@ public enum ResponseCode {
     ANOTHER_REQUEST_PROCESSING(HttpStatus.UNPROCESSABLE_ENTITY, "EBI002", "이미 처리중인 요청이 존재합니다. 잠시 후 다시 시도해주세요."),
 
     /* 500 */
-    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "U00001", "예기치 못한 서버 오류가 발생했습니다"),
+    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "U00001", "서버 내부 오류가 발생했습니다."),
     SERVICE_UNAVAILABLE(HttpStatus.SERVICE_UNAVAILABLE, "U00002", "현재 서버가 일시적으로 응답할 수 없습니다"),
     ;
 

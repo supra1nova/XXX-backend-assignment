@@ -11,11 +11,11 @@ import lombok.experimental.SuperBuilder;
 import org.hibernate.validator.constraints.Range;
 import org.hibernate.validator.constraints.UUID;
 
+@Schema(description = "요청용 커서 페이지네이션 DTO")
 @Getter
 @Setter
 @SuperBuilder
 @NoArgsConstructor
-@Schema(description = "기본 커서 페이지네이션 DTO")
 public class CursorPageRequestDto {
     @Schema(description = "대상 커서 ID (uuid 형식)", example = "8bc3930e-e314-4129-b401-8b31475f0606")
     @UUID

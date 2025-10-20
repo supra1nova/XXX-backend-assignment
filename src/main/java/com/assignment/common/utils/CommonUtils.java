@@ -6,6 +6,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import java.time.Instant;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.Map;
 import java.util.Optional;
 
@@ -43,5 +46,13 @@ public class CommonUtils {
                 }
             }
         }
+    }
+
+    public static String toCustomDateTimeString(Instant now) {
+        DateTimeFormatter formatter = new DateTimeFormatterBuilder()
+            .appendInstant(3)
+            .toFormatter();
+
+        return formatter.format(now);
     }
 }

@@ -1,6 +1,8 @@
 package com.assignment.common.model;
 
+import com.assignment.common.utils.CommonUtils;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,8 +11,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
+@Schema(description = "응답 래퍼용 객체")
 @Slf4j
 @Getter
 @ToString
@@ -18,8 +21,11 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ResponseBody {
+    @Schema(description = "응답 래퍼용 객체")
     private String timestamp;
+    @Schema(description = "응답 코드")
     private String code;
+    @Schema(description = "응답 메세지")
     private String message;
 
     public static ResponseEntity<ResponseBody> toResponseEntity(ResponseCode responseCode) {
@@ -27,6 +33,8 @@ public class ResponseBody {
         return ResponseEntity
             .status(responseCode.getHttpStatus())
             .body(ResponseBody.builder()
+                .timestamp(CommonUtils.toCustomDateTimeString(Instant.now()))
+                .code(responseCode.getCode())
                 .message(responseCode.getDetail())
                 .build()
             );
@@ -45,7 +53,7 @@ public class ResponseBody {
             .status(responseCode.getHttpStatus())
             .contentType(MediaType.APPLICATION_JSON)
             .body(ResponseBody.builder()
-                .timestamp(LocalDateTime.now().toString())
+                .timestamp(CommonUtils.toCustomDateTimeString(Instant.now()))
                 .code(responseCode.getCode())
                 .message(responseCode.getDetail())
                 .build()
