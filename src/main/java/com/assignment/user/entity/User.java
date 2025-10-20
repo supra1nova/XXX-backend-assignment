@@ -49,4 +49,19 @@ public class User {
             .updatedAt(updatedAt)
             .build();
     }
+
+    public static User create(String userName, Integer userAge) {
+        return User.builder()
+            .userName(userName)
+            .userAge(userAge)
+            .build();
+    }
+
+    public static User restore(Long userId, String userName, Integer userAge) {
+        return User.builder()
+            .userId(userId)
+            .userName(userName)
+            .userAge(userAge)
+            .build();
+    }
 }
