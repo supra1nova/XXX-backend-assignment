@@ -43,6 +43,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
+    implementation 'net.datafaker:datafaker:2.5.2'
+
     implementation('org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.12') {
         exclude group: 'org.apache.commons', module: 'commons-lang3'
     }
