@@ -1,4 +1,4 @@
-# apr-backend-assignment / 에이피알 백엔드 직무과제
+# XXX-backend-assignment / XXX 백엔드 직무과제
 SpringBoot 3.x.x / H2 (in memory) / Spring Data JPA / Gradle / JAVA 21
 
 ---
